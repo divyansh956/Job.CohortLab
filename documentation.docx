@@ -1,0 +1,27 @@
+BACKEND
+
+*npm init
+*npm install bcrypt cloudinary cookie-parser cors dotenv express express-fileupload jsonwebtoken mongoose node-cron nodemailer validator
+
+bcrypt--> raw password hashing
+cloudinary--> uploading file on the cloud
+cookie-parser--> getting generated tokens
+cors--> use for connecting frontend and the BACKEND
+dotenv--> 
+node-cron--> use for scheduling purpose
+
+--> make changes in 'package.json' file.
+
+*npm run dev
+
+--> express file upload --> the file which is uploaded using cloudinary will be fetched by this middleware
+
+-------------------------------------------------------------------------------------------------------------
+
+FRONTEND
+
+Black [#040506]
+DGreen [#a1ac1c]
+LGreen [#d7e626]
+
+
