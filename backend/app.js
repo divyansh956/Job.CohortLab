@@ -46,7 +46,7 @@ app.use(fileUpload({
 
 
 // routes
-app.use('/api/users', userRouter);
+app.use("/api/v1/user", userRouter);
 
 
 

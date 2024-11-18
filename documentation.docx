@@ -1,3 +1,12 @@
+UNIQUE FEATURE
+>> Email after job posting
+>> Update profile
+>> authentication/authorization
+>> separate domail registration for the admins(Employeer).
+>> update password / change password
+
+
+--------------------------------------------------------------------------------------------------------
 BACKEND
 
 *npm init
@@ -15,6 +24,11 @@ node-cron--> use for scheduling purpose
 *npm run dev
 
 --> express file upload --> the file which is uploaded using cloudinary will be fetched by this middleware
+--> utils for cookie and token managements
+
+
+
+
 
 -------------------------------------------------------------------------------------------------------------
 

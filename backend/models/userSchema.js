@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     minLength: [3, "Name must cotain at least 3 characters."],
     maxLength: [50, "Name cannot exceed more than 50 characters."],
   },
-  email1: {
+  email: {
     type: String,
     required: true,
     validate: [
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
           {
             validator: function (value) {
                 if (this.role === "Employer") {
-                    return value.includes("chatgpt");
+                    return value.includes("cohortlab");
                 }
             },
             message: "You are not allowed to register.",
@@ -70,21 +70,30 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userSchema.pre("save", async function (next) {
-//   if (!this.isModified("password")) {
-//     next();
-//   }
-//   this.password = await bcrypt.hash(this.password, 10);
-// });
 
-// userSchema.methods.comparePassword = async function (enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
+// make the password hide of the user in the database
+// making the password hash
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  this.password = await bcrypt.hash(this.password, 10);
+});
 
-// userSchema.methods.getJWTToken = function () {
-//   return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
-//     expiresIn: process.env.JWT_EXPIRE,
-//   });
-// };
+
+// compare the password with the entered password and the password(hashed) in the database
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+
+// generate JWT tokens
+userSchema.methods.getJWTToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
+
 
 export const User = mongoose.model("User", userSchema); 
