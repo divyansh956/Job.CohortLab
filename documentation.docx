@@ -31,7 +31,7 @@ node-cron--> use for scheduling purpose
 --> utils for cookie and token managements
 
 
-
+$or --> this func is used for filter.
 
 API TESTING (POSTMAN)--> https://cohortlab-job-portal.postman.co/workspace/CohortLab-Job-portal-Workspace~5f720074-83d8-4b59-891e-9bd4effc3745/collection/27539320-ff2d3305-f905-458e-9c40-bab75c995cef?action=share&creator=27539320
 -------------------------------------------------------------------------------------------------------------
