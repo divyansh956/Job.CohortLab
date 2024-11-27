@@ -38,8 +38,15 @@ API TESTING (POSTMAN)--> https://cohortlab-job-portal.postman.co/workspace/Cohor
 
 FRONTEND
 
-Black [#040506]
-DGreen [#a1ac1c]
-LGreen [#d7e626]
+box-shadow= [#5c4d7d]
 
+https://coolors.co/palette/7400b8-6930c3-5e60ce-5390d9-4ea8de-48bfe3-56cfe1-64dfdf-72efdd-80ffdb
+https://coolors.co/palette/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff
+
+*npm create vite@latest ./
+*npm install
+*npm install react-redux @reduxjs/toolkit axios react-router-dom react-spinners react-toastify 
+*npm i react-icons
+
+*npm run dev
 
