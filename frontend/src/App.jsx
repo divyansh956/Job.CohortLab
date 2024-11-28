@@ -11,7 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import PostApplication from "./pages/PostApplication";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-// import NotFound from "./pages/NotFound";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -31,7 +31,7 @@ const App = () => {
                     <Route path='/post/application/:jobId' element={<PostApplication/>}/>
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/login' element={<Login/>}/>
-                    {/* <Route path='*' element={<NotFound/>}/> */}
+                    <Route path='*' element={<NotFound/>}/>
                 </Routes>
 
 
