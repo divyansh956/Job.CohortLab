@@ -8,34 +8,32 @@ import { Link } from "react-router-dom";
 
 const Jobs = () => {
   const [city, setCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
   const [niche, setNiche] = useState("");
+  const [selectedNiche, setSelectedNiche] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  // Redux state
   const { jobs, loading, error } = useSelector((state) => state.jobs);
+
+  const handleCityChange = (city) => {
+    setCity(city);
+    setSelectedCity(city);
+  };
+  const handleNicheChange = (niche) => {
+    setNiche(niche);
+    setSelectedNiche(niche);
+  };
 
   const dispatch = useDispatch();
 
-  // Handle API errors
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(clearAllJobErrors());
     }
-  }, [error, dispatch]);
+    dispatch(fetchJobs(city, niche, searchKeyword));
+  }, [dispatch, error, city, niche]);
 
-  // Fetch jobs on load and when filters change
-  useEffect(() => {
-    if (!city && !niche && !searchKeyword) {
-      // Fetch all jobs if no filters are selected
-      dispatch(fetchJobs("", "", ""));
-    } else {
-      // Fetch jobs based on selected filters
-      dispatch(fetchJobs(city, niche, searchKeyword));
-    }
-  }, [city, niche, searchKeyword, dispatch]);
-
-  // Trigger search manually
   const handleSearch = () => {
     dispatch(fetchJobs(city, niche, searchKeyword));
   };
@@ -62,7 +60,6 @@ const Jobs = () => {
     "IT Support and Helpdesk", "Systems Administration", "IT Consulting",
     "IT Sales", "Other IT & Software roles",
   ];
-
   return (
     <>
       {loading ? (

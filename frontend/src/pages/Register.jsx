@@ -22,7 +22,7 @@ const Register = () => {
   const [resume, setResume] = useState("");
 
   const nichesArray = [
-    "Software Development", "Web Development",
+    "Software Development", "Web Development (MERN Stack)",
     "Web Development (MEAN Stack)", "Web Development (LAMP Stack)",
     "Web Development (Django/Flask)", "Web Development (Ruby on Rails)",
     "Cybersecurity", "Data Science", "Artificial Intelligence", "Machine Learning",
@@ -41,13 +41,16 @@ const Register = () => {
     setResume(file);
   };
 
+    //useSelector is a function that takes the current state as an argument 
+    // returns whatever data you want from it.
   const { loading, isAuthenticated, error, message } = useSelector(
     (state) => state.user
   );
 
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-
+//The useEffect hook is used to perform side effects in your function components.
+// handleRegsiter function is called when the user clicks on the register button
   const handleRegsiter = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -57,6 +60,8 @@ const Register = () => {
     formData.append("phone", phone);
     formData.append("address", address);
     formData.append("password", password);
+
+    //job seeker
     if (role === "Job Seeker") {
       formData.append("firstNiche", firstNiche);
       formData.append("secondNiche", secondNiche);
@@ -64,6 +69,8 @@ const Register = () => {
       formData.append("coverLetter", coverLetter);
       formData.append("resume", resume);
     }
+    // dispatch is used to dispatch an action to the store.
+    // getting data feom userSlice
     dispatch(register(formData));
   };
 
@@ -76,6 +83,9 @@ const Register = () => {
       navigateTo("/");
     }
   }, [dispatch, error, loading, isAuthenticated, message]);
+
+
+  //designing the register page
 
   return (
     <>
@@ -126,6 +136,8 @@ const Register = () => {
                   <MdOutlineMailOutline />
                 </div>
               </div>
+
+
               <div className="inputTag">
                 <label>Phone Number</label>
                 <div>
@@ -139,6 +151,8 @@ const Register = () => {
                 </div>
               </div>
             </div>
+
+
             <div className="wrapper">
               <div className="inputTag">
                 <label>Address</label>
@@ -252,6 +266,8 @@ const Register = () => {
                 </div>
               </>
             )}
+
+            {/* button will be disabled when login */}
             <button type="submit" disabled={loading}>
               Register
             </button>

@@ -5,11 +5,13 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     loading: false,
-    isAuthenticated: false,
+    isAuthenticated: false,   // initially user is not authenticated
     user: {},
     error: null,
     message: null,
   },
+
+
   reducers: {
     registerRequest(state, action) {
       state.loading = true;
@@ -18,6 +20,8 @@ const userSlice = createSlice({
       state.error = null;
       state.message = null;
     },
+
+
     registerSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
@@ -25,6 +29,8 @@ const userSlice = createSlice({
       state.error = null;
       state.message = action.payload.message;
     },
+
+
     registerFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
@@ -32,6 +38,10 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.message = null;
     },
+
+
+    // after successful login it remain login until logout
+
     loginRequest(state, action) {
       state.loading = true;
       state.isAuthenticated = false;
@@ -39,6 +49,8 @@ const userSlice = createSlice({
       state.error = null;
       state.message = null;
     },
+
+
     loginSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
@@ -46,6 +58,9 @@ const userSlice = createSlice({
       state.error = null;
       state.message = action.payload.message;
     },
+
+
+
     loginFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
@@ -59,28 +74,38 @@ const userSlice = createSlice({
       state.user = {};
       state.error = null;
     },
+
+
     fetchUserSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
       state.error = null;
     },
+
+
     fetchUserFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = {};
       state.error = action.payload;
     },
+
+
     logoutSuccess(state, action) {
       state.isAuthenticated = false;
       state.user = {};
       state.error = null;
     },
+
+
     logoutFailed(state, action) {
       state.isAuthenticated = state.isAuthenticated;
       state.user = state.user;
       state.error = action.payload;
     },
+
+
     clearAllErrors(state, action) {
       state.error = null;
       state.user = state.user;
@@ -88,8 +113,13 @@ const userSlice = createSlice({
   },
 });
 
+
+// dispatching actions
 export const register = (data) => async (dispatch) => {
   dispatch(userSlice.actions.registerRequest());
+
+  // sending a post request to the server
+  // backend frontend communication
   try {
     const response = await axios.post(
       "http://localhost:4000/api/v1/user/register",
@@ -99,15 +129,21 @@ export const register = (data) => async (dispatch) => {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
+
     dispatch(userSlice.actions.registerSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
-  } catch (error) {
+  } 
+  catch (error) {
     dispatch(userSlice.actions.registerFailed(error.response.data.message));
   }
 };
 
+
+// login action
 export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
+
+  // sending a post request to the server
   try {
     const response = await axios.post(
       "http://localhost:4000/api/v1/user/login",
@@ -124,6 +160,8 @@ export const login = (data) => async (dispatch) => {
   }
 };
 
+
+// get user action
 export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
   try {
@@ -139,6 +177,8 @@ export const getUser = () => async (dispatch) => {
     dispatch(userSlice.actions.fetchUserFailed(error.response.data.message));
   }
 };
+
+// logout action
 export const logout = () => async (dispatch) => {
   try {
     const response = await axios.get(
