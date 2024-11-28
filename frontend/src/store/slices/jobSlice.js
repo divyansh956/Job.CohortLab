@@ -11,69 +11,54 @@ const jobSlice = createSlice({
         singleJob: {},
         myJobs: [],
     },
-
-    reducers:{
-        requestForAllJobs(state, action){
+    reducers: {
+        requestForAllJobs(state) {
             state.loading = true;
             state.error = null;
         },
-        successForAllJobs(state, action){
+        successForAllJobs(state, action) {
             state.loading = false;
             state.jobs = action.payload;
             state.error = null;
-
         },
-        failForAllJobs(state, action){
+        failureForAllJobs(state, action) {
             state.loading = false;
-            state.error = null;
+            state.error = action.payload; // Fixed: Assign the error message here
         },
-        clearAllErrors(state, action){
-            state.jobs= state.jobs;
-            state.error = null;
+        clearAllErrors(state) {
+            state.error = null; // Removed redundant assignments
         },
-        resetJobSlice(state, action){
+        resetJobSlice(state) {
             state.error = null;
-            state.jobs=state.jobs;
+            state.jobs = [];
             state.loading = false;
             state.message = null;
-            state.myJobs=state.myJobs;
-            state.singleJob={};
+            state.myJobs = [];
+            state.singleJob = {};
         },
-
-    }
-
-
+    },
 });
 
-export const fetchJobs = (city, niche, searchKeyword="") => async (dispatch) => {
-
-    try{
+export const fetchJobs = (city, niche, searchKeyword = "") => async (dispatch) => {
+    try {
         dispatch(jobSlice.actions.requestForAllJobs());
-        let link="http://localhost:4000/api/v1/job/getall?";
-        let queryParams=[];
-        if(searchKeyword){
-            queryParams.push(`searchKeyword=${searchKeyword}`);
-        }
+        let link = "http://localhost:4000/api/v1/job/getall?";
+        const queryParams = [];
 
-        if(city){
-            queryParams.push(`city=${city}`);
-        }
-        if(niche){
-            queryParams.push(`niche=${niche}`);
-        }
+        if (searchKeyword) queryParams.push(`searchKeyword=${searchKeyword}`);
+        if (city) queryParams.push(`city=${city}`);
+        if (niche) queryParams.push(`niche=${niche}`);
 
-        link+=queryParams.join('&');
+        link += queryParams.join('&');
 
-        const response = await axios.get(link, { withCredentials:true } );
+        const response = await axios.get(link, { withCredentials: true });
         dispatch(jobSlice.actions.successForAllJobs(response.data.data.jobs));
         dispatch(jobSlice.actions.clearAllErrors());
+    } catch (error) {
+        const errorMessage = error.response?.data?.message || "An error occurred";
+        dispatch(jobSlice.actions.failureForAllJobs(errorMessage)); // Added fallback
     }
-    catch (error) {
-        dispatch(jobSlice.actions.failureForSingleJob(error.response.data.message));
-      }
 };
-    
-
 
 export const clearAllJobErrors = () => (dispatch) => {
     dispatch(jobSlice.actions.clearAllErrors());
@@ -82,6 +67,5 @@ export const clearAllJobErrors = () => (dispatch) => {
 export const resetJobSlice = () => (dispatch) => {
     dispatch(jobSlice.actions.resetJobSlice());
 };
-
 
 export default jobSlice.reducer;
